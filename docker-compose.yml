@@ -1,0 +1,12 @@
+services:
+  dev:
+    build: .
+    image: php8.1-cli
+    container_name: php8.1-cli-dev-phpunit-examples
+    command: bash -c "composer install && /bin/bash"
+    environment:
+      - PHP_CS_FIXER_IGNORE_ENV=1
+    tty: true
+    volumes:
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - .:/app

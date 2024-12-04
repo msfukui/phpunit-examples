@@ -1,0 +1,43 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - README.md
+      - .gitignore
+      - Makefile
+      - Dockerfile
+      - docker-compose.yml
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - README.md
+      - .gitignore
+      - Makefile
+      - Dockerfile
+      - docker-compose.yml
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: none, mbstring, dom, tokenizer, xml, xmlwriter, simplexml
+          coverage: xdebug
+
+      - name: Install Composer Dependencies
+        run: composer install
+
+      - name: Lint
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+      - name: Unit Test
+        run: vendor/bin/phpunit
