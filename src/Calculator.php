@@ -6,8 +6,15 @@ namespace PHPUnitExamples;
 
 final class Calculator
 {
-    public function add(int $a, int $b): int
+    public function __construct(
+        private readonly ApiGateway $api,
+        private readonly ApiRequest $request,
+    ) {
+    }
+
+    public function amountByProduct(string $name, int $quantity): int
     {
-        return $a + $b;
+        $this->request->set(['product_name' => $name]);
+        return $this->api->invoke($this->request)->unitPrice() * $quantity;
     }
 }
