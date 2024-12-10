@@ -5,30 +5,21 @@ declare(strict_types=1);
 namespace PHPUnitExamples;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Calculator::class)]
-class CalculatorTest extends TestCase
+final class CalculatorTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
-    public function testAmountByProduct(): void
+    public function testAmountOfProductUsedWillReturn(): void
     {
-        $response = $this->createStub(ApiResponse::class);
-        $response->method('unitPrice')
-            ->willReturn(220);
-
         $api = $this->createStub(ApiGateway::class);
+
         $api->method('invoke')
-            ->willReturn($response);
+            ->willReturn("220");
 
-        $request = $this->createStub(ApiRequest::class);
+        $actual = (new Calculator($api))
+            ->amountOfProduct('apple', 3);
 
-        $this->assertSame(
-            660,
-            (new Calculator($api, $request))->amountByProduct('apple', 3)
-        );
+        $this->assertSame(660, $actual);
     }
 }

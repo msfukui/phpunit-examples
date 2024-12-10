@@ -6,5 +6,9 @@ namespace PHPUnitExamples;
 
 interface ApiGateway
 {
-    public function invoke(ApiRequest $request): ApiResponse;
+    /**
+     * @param array<string, string> $request
+     * @return string
+     */
+    public function invoke(array $request): string;
 }
