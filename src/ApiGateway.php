@@ -7,8 +7,7 @@ namespace PHPUnitExamples;
 interface ApiGateway
 {
     /**
-     * @param array<string, string> $request
-     * @return string
+     * @throws NotFoundException
      */
-    public function invoke(array $request): string;
+    public function invoke(string $name, string $value): string;
 }

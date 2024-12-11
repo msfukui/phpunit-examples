@@ -13,9 +13,12 @@ final class Calculator
     ) {
     }
 
+    /**
+     * @throws NotFoundException
+     */
     public function amountOfProduct(string $name, int $quantity): int
     {
-        $priceString = $this->api->invoke(['name' => $name]);
+        $priceString = $this->api->invoke('name', $name);
 
         if (is_numeric($priceString) === false) {
             throw new InvalidArgumentException('Price must be a number, but ' . $priceString);
