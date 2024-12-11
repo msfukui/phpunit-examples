@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPUnitExamples;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Calculator::class)]
@@ -77,7 +78,10 @@ final class CalculatorTest extends TestCase
         );
     }
 
-    public function testAmountOfProductUsedWillReturnCallback(): void
+    #[TestWith(['apple', 3, 660])]
+    #[TestWith(['banana', 16, 640])]
+    #[TestWith(['peach', 4, 1680])]
+    public function testAmountOfProductUsedWillReturnCallback(string $productName, int $quantity, int $expected): void
     {
         $api = $this->createStub(ApiGateway::class);
 
@@ -87,22 +91,14 @@ final class CalculatorTest extends TestCase
                     'apple' => '220',
                     'banana' => '40',
                     'peach' => '420',
-                    'default' => '0',
+                    'default' => throw new NotFoundException(),
                 };
             });
 
-        $params = [
-            ['name' => 'apple', 'quantity' => 3, 'expected' => 660],
-            ['name' => 'banana', 'quantity' => 16, 'expected' => 640],
-            ['name' => 'peach', 'quantity' => 4, 'expected' => 1680],
-        ];
+        $actual = (new Calculator($api))
+            ->amountOfProduct($productName, $quantity);
 
-        foreach ($params as $param) {
-            $actual = (new Calculator($api))
-                ->amountOfProduct($param['name'], $param['quantity']);
-
-            $this->assertSame($param['expected'], $actual);
-        }
+        $this->assertSame($expected, $actual);
     }
 
     public function testAmountOfProductUsedWillReturnSelf()
@@ -115,7 +111,10 @@ final class CalculatorTest extends TestCase
         $this->assertInstanceOf(ApiGateway::class, $api);
     }
 
-    public function testAmountOfProductUsedWillReturnMap()
+    #[TestWith(['apple', 3, 660])]
+    #[TestWith(['banana', 16, 640])]
+    #[TestWith(['peach', 4, 1680])]
+    public function testAmountOfProductUsedWillReturnMap(string $productName, int $quantity, int $expected)
     {
         $api = $this->createMock(ApiGateway::class);
 
@@ -126,17 +125,9 @@ final class CalculatorTest extends TestCase
                 ['name', 'peach', '420'],
             ]);
 
-        $params = [
-            ['name' => 'apple', 'quantity' => 3, 'expected' => 660],
-            ['name' => 'banana', 'quantity' => 16, 'expected' => 640],
-            ['name' => 'peach', 'quantity' => 4, 'expected' => 1680],
-        ];
+        $actual = (new Calculator($api))
+            ->amountOfProduct($productName, $quantity);
 
-        foreach ($params as $param) {
-            $actual = (new Calculator($api))
-                ->amountOfProduct($param['name'], $param['quantity']);
-
-            $this->assertSame($param['expected'], $actual);
-        }
+        $this->assertSame($expected, $actual);
     }
 }
