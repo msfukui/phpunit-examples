@@ -3,7 +3,7 @@ all: clean build
 clean:
 	-@docker compose down
 build:
-	-@docker compose up -d --build --remove-orphans
+	-@docker compose up -d --build
 up:
 	-@docker compose up -d
 down:
