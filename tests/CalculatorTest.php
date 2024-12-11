@@ -4,13 +4,31 @@ declare(strict_types=1);
 
 namespace PHPUnitExamples;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Calculator::class)]
 final class CalculatorTest extends TestCase
 {
+    public function testAmountOfProductUsedCreateConfiguredStub(): void
+    {
+        $api = $this->createConfiguredStub(
+            ApiGateway::class,
+            [
+                'invoke' => '220',
+            ]
+        );
+
+        $this->assertSame(
+            660,
+            (new Calculator($api))
+                ->amountOfProduct('apple', 3)
+        );
+    }
+
     public function testAmountOfProductUsedWillReturn(): void
     {
         $api = $this->createStub(ApiGateway::class);
@@ -91,7 +109,7 @@ final class CalculatorTest extends TestCase
                     'apple' => '220',
                     'banana' => '40',
                     'peach' => '420',
-                    'default' => throw new NotFoundException(),
+                    default => throw new NotFoundException(),
                 };
             });
 
@@ -99,16 +117,6 @@ final class CalculatorTest extends TestCase
             ->amountOfProduct($productName, $quantity);
 
         $this->assertSame($expected, $actual);
-    }
-
-    public function testAmountOfProductUsedWillReturnSelf()
-    {
-        $api = $this->createMock(ApiGateway::class);
-
-        $api->method('invoke')
-            ->willReturnSelf();
-
-        $this->assertInstanceOf(ApiGateway::class, $api);
     }
 
     #[TestWith(['apple', 3, 660])]
@@ -129,5 +137,41 @@ final class CalculatorTest extends TestCase
             ->amountOfProduct($productName, $quantity);
 
         $this->assertSame($expected, $actual);
+    }
+
+    #[DoesNotPerformAssertions]
+    public function testAmountOfProductReturnVoid(): void
+    {
+        $api = $this->createStub(ApiGateway::class);
+
+        $api->none();
+    }
+
+    public function testAmountOfProductInvalidArgumentException(): void
+    {
+        $api = $this->createStub(ApiGateway::class);
+
+        $api->method('invoke')
+            ->willReturn('not a number');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        (new Calculator($api))
+            ->amountOfProduct('apple', 3);
+    }
+
+    public function testAmountOfProductUsedWillReturnWithDoubleMethods(): void
+    {
+        $api = $this->createStub(ApiGateway::class);
+
+        $api->method('invoke')
+            ->willReturn('220');
+
+        $api->method('unknown')
+            ->willReturn('known');
+
+        $this->assertSame($api->invoke('name', 'apple'), '220');
+
+        $this->assertSame($api->unknown(), 'known');
     }
 }
