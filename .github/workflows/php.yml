@@ -23,13 +23,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    strategy:
+      matrix:
+        php-version: [ '8.1', '8.2', '8.3', '8.4' ]
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ matrix.php-version }}
           extensions: none, mbstring, dom, tokenizer, xml, xmlwriter, simplexml
           coverage: xdebug
 
