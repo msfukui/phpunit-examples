@@ -12,7 +12,7 @@ down:
 update:
 	-@docker compose exec dev composer update
 
-ci: lint test
+ci: lint testdox
 
 lint:
 	-@docker compose exec dev vendor/bin/php-cs-fixer fix --dry-run --diff
@@ -24,3 +24,6 @@ tests: test
 
 test:
 	-@docker compose exec dev vendor/bin/phpunit
+
+testdox:
+	-@docker compose exec dev vendor/bin/phpunit --color=always --testdox
