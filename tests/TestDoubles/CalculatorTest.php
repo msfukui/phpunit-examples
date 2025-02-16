@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PHPUnitExamples;
+namespace PHPUnitExamples\TestDoubles;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
