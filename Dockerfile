@@ -1,4 +1,4 @@
-FROM php:8.1-cli
+FROM php:8.2-cli
 
 RUN apt update -y && apt upgrade -y \
     && apt install -y zip fswatch \
