@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PHPUnitExamples\ByPassFinals;
 
-use DG\BypassFinals;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -20,8 +19,6 @@ final class FinalClassTest extends TestCase
 
     protected function setUp(): void
     {
-        BypassFinals::enable();
-
         $this->mock = $this->createMock(FinalClass::class);
         $this->mock
             ->method('getSomething')
