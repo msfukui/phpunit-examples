@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Calculator::class)]
-final class CalculatorTest extends TestCase
+final class CalculatorStubTest extends TestCase
 {
     public function testAmountOfProductUsedCreateConfiguredStub(): void
     {
