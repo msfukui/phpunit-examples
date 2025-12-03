@@ -42,8 +42,6 @@ jobs:
 
       - name: Lint
         run: vendor/bin/php-cs-fixer fix --dry-run --diff
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: 1
 
       - name: Unit Test
         run: vendor/bin/phpunit --colors=always --testdox

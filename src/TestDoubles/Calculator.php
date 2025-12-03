@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace PHPUnitExamples\TestDoubles;
 
 use InvalidArgumentException;
-use PHPUnitExamples\TestDoubles\ApiGateway;
-use PHPUnitExamples\TestDoubles\NotFoundException;
 
-final class Calculator
+final readonly class Calculator
 {
     public function __construct(
-        private readonly ApiGateway $api,
+        private ApiGateway $api,
     ) {
     }
 

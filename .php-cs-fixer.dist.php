@@ -11,4 +11,5 @@ return $config->setRules([
     'array_syntax' => ['syntax' => 'short'],
 ])
     ->setFinder($finder)
-    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
+    ->setUnsupportedPhpVersionAllowed(true);

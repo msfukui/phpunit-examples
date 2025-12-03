@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Calculator::class)]
-final class CalculatorTest extends TestCase
+final class CalculatorStubTest extends TestCase
 {
     public function testAmountOfProductUsedCreateConfiguredStub(): void
     {
@@ -170,8 +170,8 @@ final class CalculatorTest extends TestCase
         $api->method('unknown')
             ->willReturn('known');
 
-        $this->assertSame($api->invoke('name', 'apple'), '220');
+        $this->assertSame('220', $api->invoke('name', 'apple'));
 
-        $this->assertSame($api->unknown(), 'known');
+        $this->assertSame('known', $api->unknown());
     }
 }
