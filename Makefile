@@ -9,9 +9,6 @@ up:
 down:
 	-@docker compose down
 
-update:
-	-@docker compose exec dev composer update
-
 ci: lint testdox
 
 lint:
