@@ -25,4 +25,20 @@ final class CalculatorMockTest extends TestCase
         (new Calculator($api))
             ->amountOfProduct('apple', 3);
     }
+
+    public function testAmountOfProductUsedExpectsAndWithConstraints(): void
+    {
+        $api = $this->createMock(ApiGateway::class);
+
+        $api->expects($this->any())
+            ->method('invoke')
+            ->with(
+                $this->identicalTo('name'),
+                $this->stringContains('apple'),
+            )
+            ->willReturn('220');
+
+        (new Calculator($api))
+            ->amountOfProduct('apple', 3);
+    }
 }
