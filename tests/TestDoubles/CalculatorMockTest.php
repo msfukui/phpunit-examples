@@ -30,7 +30,7 @@ final class CalculatorMockTest extends TestCase
     {
         $api = $this->createMock(ApiGateway::class);
 
-        $api->expects($this->any())
+        $api->expects($this->once())
             ->method('invoke')
             ->with(
                 $this->identicalTo('name'),
@@ -50,11 +50,11 @@ final class CalculatorMockTest extends TestCase
             ->method('invoke')
             ->with(
                 $this->identicalTo('name'),
-                $this->stringContains('apple'),
+                $this->stringContains('banana'),
             )
-            ->willReturn('220');
+            ->willReturn('40');
 
         $calculator
-            ->amountOfProduct('apple', 3);
+            ->amountOfProduct('banana', 16);
     }
 }
