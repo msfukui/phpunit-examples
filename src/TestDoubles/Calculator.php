@@ -32,7 +32,7 @@ final readonly class Calculator
     /**
      * @throws NotFoundException
      */
-    public function invoke(string $name, string $value): string
+    protected function invoke(string $name, string $value): string
     {
         return $this->api->invoke($name, $value);
     }
