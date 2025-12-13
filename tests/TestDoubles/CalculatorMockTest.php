@@ -41,4 +41,20 @@ final class CalculatorMockTest extends TestCase
         (new Calculator($api))
             ->amountOfProduct('apple', 3);
     }
+
+    public function testAmountOfProductUsedPartialMock(): void
+    {
+        $calculator = $this->createPartialMock(Calculator::class, ['invoke']);
+
+        $calculator->expects($this->any())
+            ->method('invoke')
+            ->with(
+                $this->identicalTo('name'),
+                $this->stringContains('apple'),
+            )
+            ->willReturn('220');
+
+        $calculator
+            ->amountOfProduct('apple', 3);
+    }
 }
