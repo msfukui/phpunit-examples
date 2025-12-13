@@ -18,7 +18,7 @@ final readonly class Calculator
      */
     public function amountOfProduct(string $name, int $quantity): int
     {
-        $priceString = $this->api->invoke('name', $name);
+        $priceString = $this->invoke('name', $name);
 
         if (is_numeric($priceString) === false) {
             throw new InvalidArgumentException('Price must be a number, but ' . $priceString);
@@ -27,6 +27,14 @@ final readonly class Calculator
         $unitPrice = intval($priceString);
 
         return $this->amount($unitPrice, $quantity);
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    protected function invoke(string $name, string $value): string
+    {
+        return $this->api->invoke($name, $value);
     }
 
     private function amount(int $unitPrice, int $quantity): int
