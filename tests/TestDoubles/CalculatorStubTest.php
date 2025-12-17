@@ -124,7 +124,7 @@ final class CalculatorStubTest extends TestCase
     #[TestWith(['peach', 4, 1680])]
     public function testAmountOfProductUsedWillReturnMap(string $productName, int $quantity, int $expected)
     {
-        $api = $this->createMock(ApiGateway::class);
+        $api = $this->createStub(ApiGateway::class);
 
         $api->method('invoke')
             ->willReturnMap([
